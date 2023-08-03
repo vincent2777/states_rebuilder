@@ -164,7 +164,8 @@ MaterialApp(
 
             final n = childName.startsWith('/') ? childName : '/$childName';
             _routes = page.routes;
-            final p = resolvePage(settings.copyWith(name: n));
+            final p = resolvePage(RouteSettings(name: n, arguments: settings.arguments));
+
             _routes = routes;
             if (p != null) {
               if (page.builder != null) {
@@ -224,9 +225,8 @@ MaterialApp(
         }
       }
 
-      settings = settings.copyWith(name: absolutePath);
 
-      final page = resolvePage(settings);
+      final page = resolvePage(RouteSettings(name: absolutePath, arguments: settings.arguments));
       if (page != null) {
         bool isSubRouteTransition = _routeData.values.any(
           (e) {
@@ -610,7 +610,7 @@ MaterialApp(
     return showCupertinoModalPopup<T>(
       context: navigatorState.context,
       builder: (_) => cupertinoModalPopup,
-      semanticsDismissible: semanticsDismissible,
+      semanticsDismissible: semanticsDismissible!,
       filter: filter,
     );
   }
